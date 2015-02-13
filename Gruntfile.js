@@ -21,6 +21,9 @@ module.exports = function(grunt) {
 		dist: 'dist'
 	};
 
+	// build control
+	var pkg = require('./package.json');
+
 	// Define the configuration for all the tasks
 	grunt.initConfig({
 
@@ -408,6 +411,35 @@ module.exports = function(grunt) {
 			unit: {
 				configFile: 'test/karma.conf.js',
 				singleRun: true
+			}
+		},
+
+		// Build Control
+		buildcontrol: {
+			options: {
+				dir: 'dist',
+				commit: true,
+				push: true,
+				message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+			},
+			pages: {
+				options: {
+					remote: 'git@github.com:AlanJui/yoAngular.git',
+					branch: 'gh-pages'
+				}
+			},
+			heroku: {
+				options: {
+					remote: 'git@heroku.com:example-heroku-webapp-1988.git',
+					branch: 'master',
+					tag: pkg.version
+				}
+			},
+			local: {
+				options: {
+					remote: '../',
+					branch: 'build'
+				}
 			}
 		}
 	});
